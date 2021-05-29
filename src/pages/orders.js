@@ -1,12 +1,11 @@
 import React from 'react';
 import Header from "../components/Header";
-import {auth} from "../../firebase";
+import db, {auth} from "../../firebase";
 import {useAuthState} from "react-firebase-hooks/auth";
 
 const Orders = ({orders}) => {
 
     const [user] = useAuthState(auth);
-    console.log(user);
     const userDisplayName = `${user?.displayName ? user?.displayName : "Your"}`;
 
     return (
@@ -30,4 +29,26 @@ const Orders = ({orders}) => {
 
 export default Orders;
 
-export
+// basically node js
+export async function getServerSideProps(context, user) {
+    const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+    // Get the user logged in credentials in here
+    const session = user;
+    if(!session) {
+        return {
+            props: {}
+        };
+    }
+    //will get all the ordrrs for the user
+    // firebase db
+    const stripeOrders = await db.collection('users').doc(await session.user.email).collection('orders').orderBy('timestamp', 'desc').get();
+
+    // stripe orders in here
+    const orders = await Promise.all(
+        stripeOrders.docs.map(async (order) => ({
+
+        }))
+    )
+
+}
