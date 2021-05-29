@@ -6,6 +6,7 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import {useCollection} from "react-firebase-hooks/firestore";
 import {useRouter} from "next/router";
 import {auth} from "../../firebase";
+import firebase from "firebase";
 
 
 export default function Home({products}) {
@@ -51,6 +52,8 @@ export default function Home({products}) {
 export async function getServerSideProps(context) {
     // get products
     const products = await fetch("https://fakestoreapi.com/products").then((res) => res.json());
+    // const user = firebase.auth.onAuthStateChanged(something => something);
+    // console.log("This is user here", user);
 
     return {
         props: {
