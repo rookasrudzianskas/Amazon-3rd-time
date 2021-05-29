@@ -3,6 +3,5 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/api/create-checkout-session": "pages/api/create-checkout-session.js",
   "/checkout": "pages/checkout.js"
 }
