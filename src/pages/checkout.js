@@ -9,6 +9,7 @@ import CheckoutProduct from "../components/CheckoutProduct";
 import Currency from "react-currency-formatter";
 import {useRouter} from "next/router";
 import {loadStripe} from "@stripe/stripe-js";
+import axios from "axios";
 const stripePromise = loadStripe(process.env.stripe_public_key);
 
 const Checkout = () => {
@@ -20,10 +21,21 @@ const Checkout = () => {
     const total = useSelector(selectTotal);
     const router = useRouter();
 
-    const createCheckoutSession = () => {
+    const createCheckoutSession = async () => {
         // session initialization
+        // this will pull in the stripe in here
+        const stripe = await stripePromise;
 
-    }
+        // pull the backed to create the checkout session
+        /// await for axis to make the post request
+        // then we make the request to this url, the post requsts, we just go to the backend, here the backend fires
+        // in the object we pass the data which must go back to the backend
+        const checkoutSession = await axios.post('/api/create-checkout-session', {
+            items: items,
+            email: user.email
+        })
+
+    };
 
     console.log(something)
     return (
